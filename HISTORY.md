@@ -45,7 +45,7 @@ At this point, your folder structure should look something like this:
 
 Next, let’s change the default values helm generated, in your editor of choice open up values.yaml , it should look something like this:
 
-```helm
+```yaml
 # Default values for helm-experiments.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -122,7 +122,7 @@ affinity: {}
 
 Edit the manifest so it looks like this:
 
-```helm
+```yaml
 replicaCount: 2
 
 image:
@@ -164,6 +164,8 @@ Some useful Go template directives used in Helm charts include:
 Since Go templates are compiled into the Helm binary, rendering is fast. This allows Helm to generate customized manifests quickly.
 
 ### Creating a Deployment
+
+#### deployment.yml
 
 With our desired values created we can shift our attention toward the deployment manifest, currently the helm generated manifest should look something like this:
 
@@ -261,3 +263,42 @@ In the updated manifest we are using Go template directives to inject values for
 The `{{ .Release.Name }}` template directive inserts the name of the Helm release. This ensures the deployment name is unique for each release of the chart.
 
 For the container image we reference the repository and tag fields under the image key in values.yaml to set the container image dynamically.
+
+#### service.yml
+
+Now let’s take a look at the service manifest helm generated, it should look something like this:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "helm-experiments.fullname" . }}
+  labels:
+    {{- include "helm-experiments.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+  selector:
+    {{- include "helm-experiments.selectorLabels" . | nindent 4 }}
+```
+
+In the manifest above the `{{ include }}` directive references a named template, `.fullname` inserts the full name including release name.
+
+Similar to above, this includes a named `labels` and `selector` template defined elsewhere and indents it by 4 spaces. In our case we do not have any labels defined.
+
+The Service type is dynamically based on the `service.type` value defined in `values.yaml`, the service port is set using the number in the values.yaml file, `targetPort` is set to HTTP(port 80)
+
+### First install
+
+Finally, you can deploy the helm chart to your local cluster by running:
+
+`$> helm install helm-experiments .`
+
+#### My run
+
+```
+Error: INSTALLATION FAILED: template: helm-experiments/templates/NOTES.txt:2:14: executing "helm-experiments/templates/NOTES.txt" at <.Values.ingress.enabled>: nil pointer evaluating interface {}.enabled
+```
