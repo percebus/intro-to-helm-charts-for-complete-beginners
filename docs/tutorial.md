@@ -362,7 +362,7 @@ Note the CLI returns the location of our chart as `ttl.sh/helm-experiments/helm-
 Now we can test if the chart is indeed stored in the registry:
 
 ```shell
-$> helm install helm-exp oci://ttl.sh/helm-experiments/helm-experiments
+$> helm install helm-exp oci://ttl.sh/helm-experiments
 ```
 
 ![Install from registry](../assets/img/02/helm_install.png)

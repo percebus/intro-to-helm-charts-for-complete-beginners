@@ -142,3 +142,60 @@ NAME               TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
 helm-experiments   ClusterIP   10.97.57.87   <none>        80/TCP    8m29s
 kubernetes         ClusterIP   10.96.0.1     <none>        443/TCP   22m
 ```
+
+### How to Host a Helm Chart
+
+#### Push the Helm chart
+
+1. `$> helm push helm-experiments-0.1.0.tgz oci://ttl.sh/jcystems-helm-experiments`
+
+```shell
+$ helm push helm-experiments-0.1.0.tgz oci://ttl.sh/jcystems-helm-experiments
+Pushed: ttl.sh/jcystems-helm-experiments/helm-experiments:0.1.0
+Digest: sha256:dbc9a1d823cc2ee7330b188af6d8700b70d4b1db2c90ce9490acd3f969d548a7
+```
+
+### Install from the registry
+
+1. `$ helm install helm-exp oci://ttl.sh/jcystems-helm-experiments/helm-experiments`
+
+```shell
+$ helm install helm-exp oci://ttl.sh/jcystems-helm-experiments/helm-experiments
+NAME: helm-exp
+LAST DEPLOYED: Fri Jan 31 13:40:07 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+# NOTES
+
+## Top-Level
+
+- replicaCount: 2
+
+## image
+
+- image: traefik/whoami@latest
+- pullPolicy: Always
+
+## service (ClusterIP)
+
+- name: whoami-svc
+- ports: 80:80
+```
+
+1. `$> kubectl get pods`
+
+```shell
+$ kubectl get pods
+NAME                           READY   STATUS    RESTARTS   AGE
+helm-exp-app-84c58849b-jjgxx   1/1     Running   0          28s
+helm-exp-app-84c58849b-wwklm   1/1     Running   0          28s
+```
+
+### Unistall
+
+```shell
+$>helm uninstall helm-exp
+release "helm-exp" uninstalled
+```
