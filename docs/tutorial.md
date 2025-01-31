@@ -380,3 +380,17 @@ To install the nginx chart as a Helm release named `my-nginx`:
 
 1. `$> helm repo add bitnami https://charts.bitnami.com/bitnami`
 1. `$> helm install my-nginx bitnami/nginx`
+
+### Scale Replicas
+
+Instead of a values file, we can use the --set flag to modify chart values. To scale up replicas:
+
+1. `$> helm upgrade --set replicaCount=3 my-nginx bitnami/nginx`
+
+#### kube get pods
+
+Verify the pods where scaled:
+
+1. `$> kubectl get pods`
+
+![kubectl get pods](../assets/nginx/02/kubectl_get_pods.png)

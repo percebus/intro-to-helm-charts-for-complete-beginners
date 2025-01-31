@@ -233,9 +233,9 @@ I had to re-add the repo
 1. `$> helm install nginx bitnami/nginx`
 
 ```shell
-$> helm install nginx bitnami/nginx
-NAME: nginx
-LAST DEPLOYED: Fri Jan 31 13:48:09 2025
+$ helm install my-nginx bitnami/nginx
+NAME: my-nginx
+LAST DEPLOYED: Fri Jan 31 13:55:34 2025
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
@@ -250,17 +250,17 @@ Did you know there are enterprise versions of the Bitnami catalog? For enhanced 
 ** Please be patient while the chart is being deployed **
 NGINX can be accessed through the following DNS name from within your cluster:
 
-    nginx.default.svc.cluster.local (port 80)
+    my-nginx.default.svc.cluster.local (port 80)
 
 To access NGINX from outside the cluster, follow the steps below:
 
 1. Get the NGINX URL by running these commands:
 
   NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-        Watch the status with: 'kubectl get svc --namespace default -w nginx'
+        Watch the status with: 'kubectl get svc --namespace default -w my-nginx'
 
-    export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services nginx)
-    export SERVICE_IP=$(kubectl get svc --namespace default nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services my-nginx)
+    export SERVICE_IP=$(kubectl get svc --namespace default my-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     echo "http://${SERVICE_IP}:${SERVICE_PORT}"
 
 WARNING: There are "resources" sections in the chart not set. Using "resourcesPreset" is not recommended for production. For production installations, please set the following values according to your workload needs:
@@ -271,17 +271,75 @@ WARNING: There are "resources" sections in the chart not set. Using "resourcesPr
 
 ##### kubeclt get pods
 
+1. `$> kubectl get pods`
+
 ```shell
 $ kubectl get pods
-NAME                    READY   STATUS    RESTARTS   AGE
-nginx-8f5fd8c6d-xkbpn   1/1     Running   0          2m33s
+NAME                        READY   STATUS    RESTARTS   AGE
+my-nginx-545d54dc89-w89c2   0/1     Running   0          10s
 ```
 
 ##### kubectl get svc
 
+1. `$> kubectl get svc`
+
 ```shell
 $ kubectl get svc
 NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
-kubernetes   ClusterIP      10.96.0.1       <none>        443/TCP                      144m
-nginx        LoadBalancer   10.106.222.47   <pending>     80:32436/TCP,443:31124/TCP   3m4s
+kubernetes   ClusterIP      10.96.0.1       <none>        443/TCP                      149m
+my-nginx     LoadBalancer   10.96.156.218   <pending>     80:31250/TCP,443:30165/TCP   54s
+```
+
+#### Scale Replicas
+
+1. `$> helm upgrade --set replicaCount=3 my-nginx bitnami/nginx`
+
+```shell
+$ helm upgrade --set replicaCount=3 my-nginx bitnami/nginx
+Release "my-nginx" has been upgraded. Happy Helming!
+NAME: my-nginx
+LAST DEPLOYED: Fri Jan 31 13:57:09 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 2
+TEST SUITE: None
+NOTES:
+CHART NAME: nginx
+CHART VERSION: 18.3.5
+APP VERSION: 1.27.3
+
+Did you know there are enterprise versions of the Bitnami catalog? For enhanced secure software supply chain features, unlimited pulls from Docker, LTS support, or application customization, see Bitnami Premium or Tanzu Application Catalog. See https://www.arrow.com/globalecs/na/vendors/bitnami for more information.
+
+** Please be patient while the chart is being deployed **
+NGINX can be accessed through the following DNS name from within your cluster:
+
+    my-nginx.default.svc.cluster.local (port 80)
+
+To access NGINX from outside the cluster, follow the steps below:
+
+1. Get the NGINX URL by running these commands:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace default -w my-nginx'
+
+    export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services my-nginx)
+    export SERVICE_IP=$(kubectl get svc --namespace default my-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    echo "http://${SERVICE_IP}:${SERVICE_PORT}"
+
+WARNING: There are "resources" sections in the chart not set. Using "resourcesPreset" is not recommended for production. For production installations, please set the following values according to your workload needs:
+  - cloneStaticSiteFromGit.gitSync.resources
+  - resources
++info https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+```
+
+##### kubeclt get pods
+
+1. `$> kubectl get pods`
+
+```shell
+$ kubectl get pods
+NAME                        READY   STATUS    RESTARTS   AGE
+my-nginx-545d54dc89-jdsc5   1/1     Running   0          25s
+my-nginx-545d54dc89-w89c2   1/1     Running   0          2m
+my-nginx-545d54dc89-wlx8k   1/1     Running   0          25s
 ```
