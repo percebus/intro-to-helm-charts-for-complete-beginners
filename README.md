@@ -2,7 +2,10 @@
 
 ## References
 
+### EverythingDevOps
+
 - [Intro to Helm Charts for Complete Beginners](https://everythingdevops.dev/intro-to-helm-charts-for-complete-beginners/)
+- [Helm Charts Deep Dive for Advanced Users](https://everythingdevops.dev/helm-charts-deep-dive-for-advanced-users/)
 
 ### Medium
 
