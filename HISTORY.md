@@ -18,3 +18,21 @@ The helm-experiments directory will contain several files and subdirectories:
 To keep this demonstration simple, we would need to remove some of the generated files Helm created, in your terminal run the following commands:
 
 1. `$> rm templates/hpa.yaml templates/ingress.yaml templates/serviceaccount.yaml`
+
+Helm generated manifests for a HorizontalPodAutoscaler ,  an ingress as well as a service account, which we would not be needing for this demonstration.  If this fits your use case feel free to leave them.
+
+At this point, your folder structure should look something like this:
+
+```bash
+.
+├── Chart.yaml
+├── charts
+├── templates
+│  ├── _helpers.tpl
+│  ├── deployment.yaml
+│  ├── NOTES.txt
+│  ├── service.yaml
+│  └── tests
+│     └── test-connection.yaml
+└── values.yaml
+```
