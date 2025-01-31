@@ -17,9 +17,10 @@ fi
 
 set -x
 
-helm install ${release_name} ./helm \
-  --namespace=helm-experiments \
-  --create-namespace
+helm status ${release_name} \
+  --namespace helm-experiments
+
+# --show-notes
 
 set +x
-set +v
+set +e

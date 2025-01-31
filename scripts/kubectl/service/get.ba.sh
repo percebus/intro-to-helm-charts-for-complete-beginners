@@ -1,10 +1,10 @@
 #!/bin/bash
 
+set -e
 set -x
-set -v
 
 kubectl get service \
   --namespace helm-experiments
 
-set +v
 set +x
+set +e

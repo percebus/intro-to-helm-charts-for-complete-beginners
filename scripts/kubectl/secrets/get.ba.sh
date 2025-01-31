@@ -1,9 +1,9 @@
 #!/bin/bash
 
+set -e
 set -x
-set -v
 
 kubectl get secrets -n helm-experiments
 
-set +v
 set +x
+set +e
