@@ -299,7 +299,7 @@ Finally, you can deploy the helm chart to your local cluster by running:
 
 Your output should be similar to:
 
-![First install](./assets/img/first-install.png)
+![First install](./assets/img/01/helm_install.png)
 
 #### My run
 
@@ -310,7 +310,7 @@ Your output should be similar to:
 Error: INSTALLATION FAILED: template: helm-experiments/templates/NOTES.txt:2:14: executing "helm-experiments/templates/NOTES.txt" at <.Values.ingress.enabled>: nil pointer evaluating interface {}.enabled
 ```
 
-### Fix NOTES.txt
+#### Fix NOTES.txt
 
 Made a simplified NOTES.txt file
 
@@ -354,4 +354,23 @@ NOTES:
 
 - name: whoami-svc
 - ports: 80:80
+```
+
+### Check the pods
+
+Next, let’s verify resources were deployed correctly
+
+`$> kubectl get pods`
+
+![First install](./assets/img/01/kubectl_get_pods.png)
+
+We get two pods running just as we specified using the replicaCountvariable.
+
+#### My run
+
+```shell
+$ kubectl get pods
+NAME                                    READY   STATUS    RESTARTS   AGE
+helm-experiments-app-598bfd659f-99lm8   1/1     Running   0          4m37s
+helm-experiments-app-598bfd659f-qgxdm   1/1     Running   0          4m37s
 ```
