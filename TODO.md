@@ -2,4 +2,4 @@
 
 ## TODOs
 
-- [ ] Rename `helm-experiments` to `helm`
+- [x] ~~Rename `helm-experiments` to `helm`~~
