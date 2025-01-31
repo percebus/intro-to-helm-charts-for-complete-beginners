@@ -1,5 +1,5 @@
 
-
+*.tgz
 
 #############################
 ### helm charts.gitignore ### SRC: https://github.com/helm/charts/blob/master/.gitignore
