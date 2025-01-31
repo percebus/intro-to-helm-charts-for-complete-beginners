@@ -331,6 +331,8 @@ Do note that ttl.sh is meant only for ephemeral hosting and testing purposes. Th
 
 For production hosting, consider dedicated Helm repositories like ChartMuseum, Artifact Hub, or self-hosted solutions. The Helm Docs provide detailed guidance on different repository options.
 
+### Package the Helm chart
+
 We’ll begin by packaging our chart into a format we can push, to do this run the following command:
 
 ```shell
@@ -339,4 +341,28 @@ $>  helm package .
 
 The output should be similar to:
 
-![Package chart](../assets/img/01/helm_package.png)
+![Package chart](../assets/img/02/helm_package.png)
+
+### Push the Helm chart
+
+With the chart packaged in a zip format we can push it to the registry
+
+```shell
+$> helm push helm-experiments-0.1.0.tgz oci://ttl.sh/helm-experiments
+```
+
+Your output should be similar to:
+
+![Push chart](../assets/img/02/helm_push.png)
+
+Note the CLI returns the location of our chart as `ttl.sh/helm-experiments/helm-experiments:0.1.0`
+
+### Install from the registry
+
+Now we can test if the chart is indeed stored in the registry:
+
+```shell
+$> helm install helm-exp oci://ttl.sh/helm-experiments/helm-experiments
+```
+
+![Install from registry](../assets/img/02/helm_install.png)
