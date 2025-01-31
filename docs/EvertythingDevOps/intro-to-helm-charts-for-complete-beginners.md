@@ -299,7 +299,7 @@ Finally, you can deploy the helm chart to your local cluster by running:
 
 Your output should be similar to:
 
-![First install](../assets/img/01/helm_install.png)
+![First install](../../assets/img/01/helm_install.png)
 
 ### Check the pods
 
@@ -307,7 +307,7 @@ Next, let’s verify resources were deployed correctly
 
 `$> kubectl get pods`
 
-![First install](../assets/img/01/kubectl_get_pods.png)
+![First install](../../assets/img/01/kubectl_get_pods.png)
 
 We get two pods running just as we specified using the replicaCountvariable.
 
@@ -315,7 +315,7 @@ We get two pods running just as we specified using the replicaCountvariable.
 
 `$> kubectl get svc`
 
-![Check service](../assets/img/01/kubectl_get_svc.png)
+![Check service](../../assets/img/01/kubectl_get_svc.png)
 
 The service is also running with `ClusterIP` as specified in `values.yaml`
 
@@ -341,7 +341,7 @@ $>  helm package .
 
 The output should be similar to:
 
-![Package chart](../assets/img/02/helm_package.png)
+![Package chart](../../assets/img/02/helm_package.png)
 
 ### Push the Helm chart
 
@@ -353,7 +353,7 @@ $> helm push helm-experiments-0.1.0.tgz oci://ttl.sh/helm-experiments
 
 Your output should be similar to:
 
-![Push chart](../assets/img/02/helm_push.png)
+![Push chart](../../assets/img/02/helm_push.png)
 
 Note the CLI returns the location of our chart as `ttl.sh/helm-experiments/helm-experiments:0.1.0`
 
@@ -365,7 +365,7 @@ Now we can test if the chart is indeed stored in the registry:
 $> helm install helm-exp oci://ttl.sh/helm-experiments
 ```
 
-![Install from registry](../assets/img/02/helm_install.png)
+![Install from registry](../../assets/img/02/helm_install.png)
 
 ## Using Helm for Deployments and Rollbacks
 
@@ -393,7 +393,7 @@ Verify the pods where scaled:
 
 1. `$> kubectl get pods`
 
-![kubectl get pods](../assets/img/nginx/02/kubectl_get_pods.png)
+![kubectl get pods](../../assets/img/nginx/02/kubectl_get_pods.png)
 
 ### Rollback Changes
 
@@ -401,13 +401,13 @@ If issues occur after upgrading, we can rollback, first lets view the helm deplo
 
 1. `$> helm history my-nginx`
 
-![helm history](../assets/img/nginx/02/helm_history.png)
+![helm history](../../assets/img/nginx/02/helm_history.png)
 
 And we can rollback to the first deployment with the following command:
 
 1. `$> helm rollback my-nginx 1`
 
-![helm rollback](../assets/img/nginx/03/helm_rollback_1.png)
+![helm rollback](../../assets/img/nginx/03/helm_rollback_1.png)
 
 After we performed a rollback the number of replicas has been scaled back down, this can be extremely useful in situations where there’s a bug in a specific version of an image or having multiple pods causes performance issues.
 
@@ -415,4 +415,4 @@ Verify the rollback with the following command:
 
 1. `$> kubectl get pods`
 
-![kubectl get pods](../assets/img/nginx/03/kubectl_get_pods.png)
+![kubectl get pods](../../assets/img/nginx/03/kubectl_get_pods.png)
