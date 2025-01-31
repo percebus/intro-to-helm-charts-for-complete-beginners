@@ -268,3 +268,20 @@ WARNING: There are "resources" sections in the chart not set. Using "resourcesPr
   - resources
 +info https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
 ```
+
+##### kubeclt get pods
+
+```shell
+$ kubectl get pods
+NAME                    READY   STATUS    RESTARTS   AGE
+nginx-8f5fd8c6d-xkbpn   1/1     Running   0          2m33s
+```
+
+##### kubectl get svc
+
+```shell
+$ kubectl get svc
+NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+kubernetes   ClusterIP      10.96.0.1       <none>        443/TCP                      144m
+nginx        LoadBalancer   10.106.222.47   <pending>     80:32436/TCP,443:31124/TCP   3m4s
+```
