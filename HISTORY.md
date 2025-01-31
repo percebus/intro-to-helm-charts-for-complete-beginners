@@ -297,8 +297,61 @@ Finally, you can deploy the helm chart to your local cluster by running:
 
 `$> helm install helm-experiments .`
 
+Your output should be similar to:
+
+![First install](./assets/img/first-install.png)
+
 #### My run
+
+> [!CAUTION]
+> Seems that we deleted something in the `templates` folder that is still being referenced in the `NOTES.txt` file.
 
 ```
 Error: INSTALLATION FAILED: template: helm-experiments/templates/NOTES.txt:2:14: executing "helm-experiments/templates/NOTES.txt" at <.Values.ingress.enabled>: nil pointer evaluating interface {}.enabled
+```
+
+### Fix NOTES.txt
+
+Made a simplified NOTES.txt file
+
+```yaml
+# NOTES
+
+## Top-Level
+
+- replicaCount: {{ .Values.replicaCount }}
+
+## image
+
+- image: {{ .Values.image.repository }}@{{ .Values.image.tag }}
+- pullPolicy: {{ .Values.image.pullPolicy }}
+
+## service ({{ .Values.service.type }})
+
+- name: {{ .Values.service.name }}
+- ports: {{ .Values.service.port }}:{{ .Values.service.targetPort }}
+```
+
+```shell
+NAME: helm-experiments
+LAST DEPLOYED: Fri Jan 31 11:40:52 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+# NOTES
+
+## Top-Level
+
+- replicaCount: 2
+
+## image
+
+- image: traefik/whoami@latest
+- pullPolicy: Always
+
+## service ( ClusterIP )
+
+- name: whoami-svc
+- ports: 80:80
 ```
