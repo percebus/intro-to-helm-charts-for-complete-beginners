@@ -12,10 +12,10 @@ This command will create a directory named helm-experiments with a basic chart s
 
 The helm-experiments directory will contain several files and subdirectories:
 
-* `Chart.yaml`: This file contains metadata about the current chart, such as the name,  chart version, and description.
-* `values.yaml`: This file defines the default configuration values for your chart.
-* `templates/`: The templates directory contains the template files for your Kubernetes manifests (e.g., Deployments, Services, ConfigMaps).
-* `charts/`: This directory stores chart dependencies if your chart relies on other charts.
+- `Chart.yaml`: This file contains metadata about the current chart, such as the name, chart version, and description.
+- `values.yaml`: This file defines the default configuration values for your chart.
+- `templates/`: The templates directory contains the template files for your Kubernetes manifests (e.g., Deployments, Services, ConfigMaps).
+- `charts/`: This directory stores chart dependencies if your chart relies on other charts.
 
 To keep this demonstration simple, we would need to remove some of the generated files Helm created, in your terminal run the following commands:
 
@@ -23,7 +23,7 @@ To keep this demonstration simple, we would need to remove some of the generated
 
 1. `$> rm templates/hpa.yaml templates/ingress.yaml templates/serviceaccount.yaml`
 
-Helm generated manifests for a HorizontalPodAutoscaler ,  an ingress as well as a service account, which we would not be needing for this demonstration.  If this fits your use case feel free to leave them.
+Helm generated manifests for a HorizontalPodAutoscaler , an ingress as well as a service account, which we would not be needing for this demonstration. If this fits your use case feel free to leave them.
 
 At this point, your folder structure should look something like this:
 
@@ -43,7 +43,7 @@ At this point, your folder structure should look something like this:
 
 #### values.yml
 
-Next, let’s change the default values helm generated, in your editor of choice open up values.yaml  , it should look something like this:
+Next, let’s change the default values helm generated, in your editor of choice open up values.yaml , it should look something like this:
 
 ```helm
 # Default values for helm-experiments.
@@ -139,8 +139,26 @@ service:
 
 In the updated manifest we
 
-* Set the replicaCount to two
-* set the image repository tag and pull policy.
-* On lines 8-12 we define the `service` `name`, `type` and `ports`: this is where helm’s templating comes into play as we can have different service types for each environment
+- Set the replicaCount to two
+- set the image repository tag and pull policy.
+- On lines 8-12 we define the `service` `name`, `type` and `ports`: this is where helm’s templating comes into play as we can have different service types for each environment
 
 As an example, for development we could have the service be of `type` `ClusterIP` and in Q/A or prod the service can be exposed as `LoadBalancer`.
+
+### Templating in Helm
+
+One of the key features that makes Helm so useful is its use of templating.
+
+Helm uses the Go template language to generate Kubernetes manifest files dynamically during installation and upgrade operations.
+
+Go templates provide advanced logic, iterations, conditionals, and more - making it easy to parameterize Kubernetes configurations. For example, templating allows you to inject certain values into your manifests only if specific conditions are met.
+
+The template files reside in the templates/ directory of a Helm chart. Helm will combine these templates with the values.yaml file and render the final manifests to be deployed.
+Some useful Go template directives used in Helm charts include:
+
+- `{{ .Values.key }}`: Inject a value from values.yaml
+- `{{ .Release }}`: Insert metadata about the release
+- `{{- if .Values.key }}`: Evaluate conditional blocks
+- `{{- range }}`: Iterate over collections
+
+Since Go templates are compiled into the Helm binary, rendering is fast. This allows Helm to generate customized manifests quickly.
