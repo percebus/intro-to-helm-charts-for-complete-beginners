@@ -272,17 +272,15 @@ Now let’s take a look at the service manifest helm generated, it should look s
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "helm-experiments.fullname" . }}
-  labels:
-    {{- include "helm-experiments.labels" . | nindent 4 }}
+  name: { { include "helm-experiments.fullname" . } }
+  labels: { { - include "helm-experiments.labels" . | nindent 4 } }
 spec:
-  type: {{ .Values.service.type }}
+  type: { { .Values.service.type } }
   ports:
-    - port: {{ .Values.service.port }}
+    - port: { { .Values.service.port } }
       targetPort: http
       protocol: TCP
-  selector:
-    {{- include "helm-experiments.selectorLabels" . | nindent 4 }}
+  selector: { { - include "helm-experiments.selectorLabels" . | nindent 4 } }
 ```
 
 In the manifest above the `{{ include }}` directive references a named template, `.fullname` inserts the full name including release name.
@@ -374,3 +372,20 @@ NAME                                    READY   STATUS    RESTARTS   AGE
 helm-experiments-app-598bfd659f-99lm8   1/1     Running   0          4m37s
 helm-experiments-app-598bfd659f-qgxdm   1/1     Running   0          4m37s
 ```
+
+### Check the service
+
+`$> kubectl get svc`
+
+![Check service](./assets/img/01/kubectl_get_svc.png)
+
+#### My run
+
+```shell
+$ kubectl get svc
+NAME               TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
+helm-experiments   ClusterIP   10.97.57.87   <none>        80/TCP    8m29s
+kubernetes         ClusterIP   10.96.0.1     <none>        443/TCP   22m
+```
+
+The service is also running with `ClusterIP` as specified in `values.yaml`
