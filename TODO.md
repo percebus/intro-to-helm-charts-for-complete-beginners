@@ -2,7 +2,9 @@
 
 ## TODOs
 
-- [ ] Rename repo to something like `everything-devops-helm-charts`
+- [ ] Rename repo to something like
+  - `everything-devops-helm-charts`
+  - `everything-devops.helm-experiments`
 
 ## Done
 
