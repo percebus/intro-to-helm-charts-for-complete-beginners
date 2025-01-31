@@ -199,3 +199,72 @@ helm-exp-app-84c58849b-wwklm   1/1     Running   0          28s
 $>helm uninstall helm-exp
 release "helm-exp" uninstalled
 ```
+
+### Using Helm for Deployments and Rollbacks
+
+#### Install Nginx
+
+##### bitnami repo
+
+1. `$> helm repo add bitnami https://charts.bitnami.com/bitnami`
+
+```shell
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
+"bitnami" already exists with the same configuration, skipping
+```
+
+Seems like I have run this command before...
+
+##### helm install
+
+1. `$> helm install nginx bitnami/nginx`
+
+```shell
+$ helm install nginx bitnami/nginx
+Error: INSTALLATION FAILED: failed to download "bitnami/nginx"
+```
+
+##### Troubleshoot
+
+I had to re-add the repo
+
+1. `$> helm repo remove bitnami`
+1. `$> helm repo add bitnami https://charts.bitnami.com/bitnami`
+1. `$> helm install nginx bitnami/nginx`
+
+```shell
+$> helm install nginx bitnami/nginx
+NAME: nginx
+LAST DEPLOYED: Fri Jan 31 13:48:09 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: nginx
+CHART VERSION: 18.3.5
+APP VERSION: 1.27.3
+
+Did you know there are enterprise versions of the Bitnami catalog? For enhanced secure software supply chain features, unlimited pulls from Docker, LTS support, or application customization, see Bitnami Premium or Tanzu Application Catalog. See https://www.arrow.com/globalecs/na/vendors/bitnami for more information.
+
+** Please be patient while the chart is being deployed **
+NGINX can be accessed through the following DNS name from within your cluster:
+
+    nginx.default.svc.cluster.local (port 80)
+
+To access NGINX from outside the cluster, follow the steps below:
+
+1. Get the NGINX URL by running these commands:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace default -w nginx'
+
+    export SERVICE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].port}" services nginx)
+    export SERVICE_IP=$(kubectl get svc --namespace default nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    echo "http://${SERVICE_IP}:${SERVICE_PORT}"
+
+WARNING: There are "resources" sections in the chart not set. Using "resourcesPreset" is not recommended for production. For production installations, please set the following values according to your workload needs:
+  - cloneStaticSiteFromGit.gitSync.resources
+  - resources
++info https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+```

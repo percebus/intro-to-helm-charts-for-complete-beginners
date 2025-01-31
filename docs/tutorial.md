@@ -366,3 +366,17 @@ $> helm install helm-exp oci://ttl.sh/helm-experiments
 ```
 
 ![Install from registry](../assets/img/02/helm_install.png)
+
+## Using Helm for Deployments and Rollbacks
+
+A rollback in Helm allows you to revert an upgraded release back to a previous revision.
+Every time an install, upgrade, or rollback happens, Helm records the changed state as a new release revision with an incremented revision number. This gives a history of a release from creation through subsequent changes over its lifecycle.
+
+If an upgrade results in issues, Helm rollbacks provide a safe, automated restore mechanism to go back to a known good release state using the revision history. to demonstrate let’s use the nginx helm chart.
+
+### Install Nginx
+
+To install the nginx chart as a Helm release named `my-nginx`:
+
+1. `$> helm repo add bitnami https://charts.bitnami.com/bitnami`
+1. `$> helm install my-nginx bitnami/nginx`
