@@ -343,3 +343,47 @@ my-nginx-545d54dc89-jdsc5   1/1     Running   0          25s
 my-nginx-545d54dc89-w89c2   1/1     Running   0          2m
 my-nginx-545d54dc89-wlx8k   1/1     Running   0          25s
 ```
+
+##### helm history
+
+1. `$> helm history my-nginx`
+
+```shell
+$ helm history my-nginx
+REVISION        UPDATED                         STATUS          CHART           APP VERSION     DESCRIPTION
+1               Fri Jan 31 13:55:34 2025        superseded      nginx-18.3.5    1.27.3          Install complete
+2               Fri Jan 31 13:57:09 2025        deployed        nginx-18.3.5    1.27.3          Upgrade complete
+```
+
+#### Rollback Changes
+
+##### helm rollback
+
+1. `$> helm rollback my-nginx 1`
+
+```shell
+$ helm rollback my-nginx 1
+Rollback was a success! Happy Helming!
+```
+
+##### kubectl get pods
+
+1. `$> kubectl get pods`
+
+```shell
+$ kubectl get pods
+NAME                        READY   STATUS    RESTARTS   AGE
+my-nginx-545d54dc89-jdsc5   1/1     Running   0          6m6s
+```
+
+##### helm history
+
+1. `$> helm history my-nginx`
+
+```shell
+$ helm history my-nginx
+REVISION        UPDATED                         STATUS          CHART           APP VERSION     DESCRIPTION
+1               Fri Jan 31 13:55:34 2025        superseded      nginx-18.3.5    1.27.3          Install complete
+2               Fri Jan 31 13:57:09 2025        superseded      nginx-18.3.5    1.27.3          Upgrade complete
+3               Fri Jan 31 14:02:58 2025        deployed        nginx-18.3.5    1.27.3          Rollback to 1
+```

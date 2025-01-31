@@ -393,4 +393,26 @@ Verify the pods where scaled:
 
 1. `$> kubectl get pods`
 
-![kubectl get pods](../assets/nginx/02/kubectl_get_pods.png)
+![kubectl get pods](../assets/img/nginx/02/kubectl_get_pods.png)
+
+### Rollback Changes
+
+If issues occur after upgrading, we can rollback, first lets view the helm deployment history:
+
+1. `$> helm history my-nginx`
+
+![helm history](../assets/img/nginx/02/helm_history.png)
+
+And we can rollback to the first deployment with the following command:
+
+1. `$> helm rollback my-nginx 1`
+
+![helm rollback](../assets/img/nginx/03/helm_rollback_1.png)
+
+After we performed a rollback the number of replicas has been scaled back down, this can be extremely useful in situations where there’s a bug in a specific version of an image or having multiple pods causes performance issues.
+
+Verify the rollback with the following command:
+
+1. `$> kubectl get pods`
+
+![kubectl get pods](../assets/img/nginx/03/kubectl_get_pods.png)
